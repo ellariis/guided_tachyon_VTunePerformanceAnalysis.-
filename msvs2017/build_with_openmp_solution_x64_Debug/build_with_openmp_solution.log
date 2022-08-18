@@ -1,0 +1,3 @@
+﻿icl: : warning #10182: disabling optimization; runtime debug checks enabled
+  tachyon.openmp_solution.cpp
+  build_with_openmp_solution.vcxproj -> C:\Users\eriis\OneDrive - Intel Corporation\Documents\tachyon_julie\tachyon_samples\msvs2017\build_with_openmp_solution_x64_Debug\build_with_openmp_solution.exe
