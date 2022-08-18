@@ -1,0 +1,4 @@
+﻿icl: : warning #10182: disabling optimization; runtime debug checks enabled
+  tachyon.tbb_solution.cpp
+  build_with_tbb_solution.vcxproj -> C:\Users\eriis\OneDrive - Intel Corporation\Documents\tachyon_julie\tachyon_samples\msvs2017\build_with_tbb_solution_x64_Debug\build_with_tbb_solution.exe
+          1 file(s) copied.
