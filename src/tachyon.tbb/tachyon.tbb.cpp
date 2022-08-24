@@ -44,10 +44,8 @@
 */
 
 /******************************************************************************
-The tachyon sample program is for use with
- NAME OF TUTORIAL HERE
-
-Please refer to the tutorial for build instructions.
+The tachyon sample program is for use with the Guided Vtune Tutorial.
+Please refer to the github's readme for build instructions.
 *******************************************************************************/
 
 
@@ -72,7 +70,7 @@ Please refer to the tutorial for build instructions.
 tbb::spin_mutex mtx;
 
 // shared but read-only so could be private too
-static thr_parms *all_parms;
+static thr_parms* all_parms;
 static scenedef scene;
 static int startx;
 static int stopx;
@@ -83,13 +81,13 @@ static int totaly;
 
 // This function is shared among all implementations:
 
-static color_t render_one_pixel (int x, int y, unsigned int *local_mbox, unsigned int &serial,
-                                 int startx, int stopx, int starty, int stopy)
+static color_t render_one_pixel(int x, int y, unsigned int* local_mbox, unsigned int& serial,
+    int startx, int stopx, int starty, int stopy)
 {
     /* private vars moved inside loop */
     ray primary, sample;
     color col, avcol;
-    int R,G,B;
+    int R, G, B;
     intersectstruct local_intersections;
     int alias;
     /* end private */
@@ -108,16 +106,16 @@ static color_t render_one_pixel (int x, int y, unsigned int *local_mbox, unsigne
 
     /* Handle overexposure and underexposure here... */
     R = (int)(col.r * 255);
-    if ( R > 255 ) R = 255;
-    else if ( R < 0 ) R = 0;
+    if (R > 255) R = 255;
+    else if (R < 0) R = 0;
 
     G = (int)(col.g * 255);
-    if ( G > 255 ) G = 255;
-    else if ( G < 0 ) G = 0;
+    if (G > 255) G = 255;
+    else if (G < 0) G = 0;
 
     B = (int)(col.b * 255);
-    if ( B > 255 ) B = 255;
-    else if ( B < 0 ) B = 0;
+    if (B > 255) B = 255;
+    else if (B < 0) B = 0;
 
     return video->get_color(R, G, B);
 }
@@ -126,48 +124,36 @@ static color_t render_one_pixel (int x, int y, unsigned int *local_mbox, unsigne
 #include"ittnotify.h"
 #endif
 
-//// This application will be multi-threaded with the use of Intel Threading Building
-//// Blocks library. In order to do that we need to include the Intel TBB header file
-//// and link against tbb.lib (in release mode) or tbb_debug.lib (in debug mode)
-//todo: uncomment following line  in Intel TBB implementation
-
-//// It's quite easy to convert serial function with a loop that is to be parallelised
-//// to a function object that Intel TBB algorithms (in this case parallel_for) will use
-//// The function body needs to be moved into a C++11 lambda function passed to 
-//// the Intel TBB parallel_for
-//// We move out of the loop the iteration-independent value of mboxsize.
-//// We also no longer check for the validity of video->next_frame.
-//// Exiting a loop in the middle of a parallelized loop is not permitted.
-//// And the iterations we save from this check will be distributed 
-//// Without affecting the result.
-//todo: uncomment the following routine for the Intel TBB implementation
-///*
+// To start off with our TBB implementation, we are being overly cautious and adding a mutex
+// lock around our for loop. The idea behind this is there is a chance multiple threads are accessing
+// the same variables, so we can add a mutex lock around it to only allow one thread to access that section
+// at a time. Run this with Vtune to see what improvements can be made. 
 
 static void parallel_thread(void)
 {
-   
+
     unsigned int mboxsize = sizeof(unsigned int) * (max_objectid() + 20);
 
-     tbb::parallel_for(starty, stopy, [mboxsize] (int y)
-    {
-        tbb::spin_mutex::scoped_lock lock(mtx);
-             
-        unsigned int serial = 1;
-        unsigned int local_mbox[mboxsize];
-        memset(local_mbox, 0, mboxsize);
-        drawing_area drawing(startx, totaly - y, stopx - startx, 1);
-        for ( int x = startx; x < stopx; x++ ) {
-            color_t c = render_one_pixel(x, y, local_mbox, serial, startx, stopx, starty, stopy);
-            drawing.put_pixel(c);
+    tbb::parallel_for(starty, stopy, [mboxsize](int y)
+        {
+            tbb::spin_mutex::scoped_lock lock(mtx);
+
+            unsigned int serial = 1;
+            unsigned int local_mbox[mboxsize];
+            memset(local_mbox, 0, mboxsize);
+            drawing_area drawing(startx, totaly - y, stopx - startx, 1);
+            for (int x = startx; x < stopx; x++) {
+                color_t c = render_one_pixel(x, y, local_mbox, serial, startx, stopx, starty, stopy);
+                drawing.put_pixel(c);
+            }
+            video->next_frame();
         }
-        video->next_frame();
-    }
-	);
+    );
 }
 
 // This function is shared among all implementations:
 
-void * thread_trace(thr_parms * parms)
+void* thread_trace(thr_parms* parms)
 {
     // shared but read-only so could be private too
     all_parms = parms;
@@ -176,7 +162,7 @@ void * thread_trace(thr_parms * parms)
     stopx = parms->stopx;
     starty = parms->starty;
     stopy = parms->stopy;
-    jitterscale = 40.0*(scene.hres + scene.vres);
+    jitterscale = 40.0 * (scene.hres + scene.vres);
     totaly = parms->scene.vres - 1;
 
 #if DO_ITT_NOTIFY
