@@ -89,6 +89,7 @@ The samples package contains a Visual Studio solution named `tachyon_samples_202
      - Run the following command: `MSBuild "tachyon_samples_2022.sln" /t:Rebuild /p:Configuration="Release"`
   
 ## Build Instructions for Linux
+> **Note**: If using Linux, it is recommended to install the libXext.so and libX11.so libraries in order to see the graphics.
 
 1. Build the program using the following `cmake` commands.
    ```
@@ -98,28 +99,24 @@ The samples package contains a Visual Studio solution named `tachyon_samples_202
    $ make
    ```
 
-2. Run the program.
-   ```
-   $ make all
-   ```
-   > **Note**: the following run commands are also available and correspond to the specific build targets. You can create executables for all versions versions with `all` or select specific executable with one of the targets. 
+2. Use the Cmake generated Makefile to create executables and/or run them. Choose an option from the table that suits your purpose.
 
-| Option	                         | Function	                    
-|:---                                    |:---                              
+| Option &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 		                         | Function	                    
+|:---                                    |:---    
+| make all				 | Creates executables for all versions
 | make run                               | Creates executables for all versions and runs them                         
 | make solution                          | Creates executables for `tachyon.serial`, `tachyon.openmp_solution`, and `tachyon.tbb_solution` and runs them                             
-| make run_cpu                           |                                  
-| make run_gpu_basic_offload             |                                     
-| make run_gpu_linear                    |                                     
-| make run_gpu_private_I                 | make run_gpu_private_K              
-| make run_gpu_optimized                 | make run_gpu_optimized_good_params  
-|                                        | make run_gpu_optimized_wrong_params 
+| make tachyon.openmp </br>make tachyon.openmp_solution</br> make tachyon.serial</br> make tachyon.tbb</br> make tachyon.tbb_solution                         |          Creates the executable with whichever specified version comes after the `make` keyword.                      
+| make clean		                 | Deletes all `tachyon.*` executables in the current directory.                                    
+
+This table only includes the most useful targets available for running this sample. If you have more advanced needs, read the Makefile comments to figure out what all the targets do. 
 
 If an error occurs, you can get more details by running `make` with
 the `VERBOSE=1` argument:
 ```
 make VERBOSE=1
 ```
+3. To run an already created executable without the Makefile, use the following command: `./<name of executable> <path to dat directory>/dat/balls.dat`. For example, in order to run the `tachyon.openmp` executable from the `linux` directory of this project folder, use this command: `./tachyon.openmp ./dat/balls.dat`.
 
 ### Troubleshooting
 If you receive an error message, troubleshoot the problem using the Diagnostics Utility for Intel&reg; oneAPI Toolkits, which provides system checks to find missing
@@ -131,19 +128,19 @@ If running a sample in the Intel&reg; DevCloud, you must specify the compute nod
 
 ## Guided Builds
 
-### Setup
+### Windows Setup
 1. Ensure that the solution and project files are updated for your version of Visual Studio.
 2. Build the solution with default settings.
 3. Add the path to balls.dat as a command argument for running through the debugger. ![image](https://user-images.githubusercontent.com/111458217/186287484-62e6e199-ff9f-40ea-8f55-4a973ce3761f.png)
 
 ### Serial Build
-1. Set `build_serial` as your startup project and open Vtune. If using the integrated version of Vtune with Visual Studio, you can click this button to open the Vtune GUI: ![image](https://user-images.githubusercontent.com/111458217/186288369-4e9b60a9-fc1e-47af-bee9-97d3e9964b8c.png)
-2. Run Hotspots Analysis with User Mode Sampling: ![image](https://user-images.githubusercontent.com/111458217/186289835-301afe7e-48f0-4c54-a8bc-f99d59870753.png)
-3. Vtune will display a `Summary` tab that should show results similar to this: ![image](https://user-images.githubusercontent.com/111458217/186290141-c37763a8-2825-42e0-a900-34325cf9bbc1.png) ![image](https://user-images.githubusercontent.com/111458217/186290205-97e98c66-15f3-401c-800e-14727cd9eebc.png) Clearly, the CPU utilization is pretty ineffective with this build. 
+1. Set `build_serial` as your startup project and open Vtune. If using the integrated version of Vtune with Visual Studio, you can click this button to open the Vtune GUI: </br> ![image](https://user-images.githubusercontent.com/111458217/186288369-4e9b60a9-fc1e-47af-bee9-97d3e9964b8c.png)
+2. Run Hotspots Analysis with User Mode Sampling: ![image](https://user-images.githubusercontent.com/111458217/186289835-301afe7e-48f0-4c54-a8bc-f99d59870753.png) If using Linux, use the command `vtune -collect hotspots ./tachyon.serial <path to dat>/dat/balls.dat`.
+3. In the GUI, Vtune will display a `Summary` tab that should show results similar to this: ![image](https://user-images.githubusercontent.com/111458217/186290141-c37763a8-2825-42e0-a900-34325cf9bbc1.png) ![image](https://user-images.githubusercontent.com/111458217/186290205-97e98c66-15f3-401c-800e-14727cd9eebc.png) Clearly, the CPU utilization is pretty ineffective with this build. 
 4. The `Bottom-up` tab shows a list of all functions, sorted by descending CPU time. Call Stacks are also shown on the right, indicating that the starting point for function grid_intersection is in the draw_task object. The bottom pane shows a chart of thread performance over the duration of the collection, and provides a visualization of the serial nature of this build; only one thread is doing work for the duration of the program. ![image](https://user-images.githubusercontent.com/111458217/186290539-a5352226-c061-4cb4-a085-82373b9a3fb4.png)
 5. Now, navigate back to the `Intel Vtune Profiler` tab and select `Configure Analysis`. 
-6. Run Threading Analysis with User Mode Sampling.
-7. The `Summary` tab will display results similar to the ones found with the Hotspots Analysis. The Threading Analysis will provide further detailed results concerning the wait time for different threads. Compare your results to this example screenshot: ![image](https://user-images.githubusercontent.com/111458217/186291190-655ef875-0d6f-472b-8a86-365d543c2cc7.png)
+6. Run Threading Analysis with User Mode Sampling. If using Linux, use the command `vtune -collect threading ./tachyon.serial <path to dat>/dat/balls.dat`.
+7. In the GUI, the `Summary` tab will display results similar to the ones found with the Hotspots Analysis. The Threading Analysis will provide further detailed results concerning the wait time for different threads. Compare your results to this example screenshot: ![image](https://user-images.githubusercontent.com/111458217/186291190-655ef875-0d6f-472b-8a86-365d543c2cc7.png)
 8. Clearly, this serial build is not making effective use of the available CPUs and threading capabilities. Let's move on to the OpenMP build and see how we can improve this implementation.
 
 ### OpenMP Build
