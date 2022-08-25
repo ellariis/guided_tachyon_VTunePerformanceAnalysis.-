@@ -89,8 +89,7 @@ The samples package contains a Visual Studio solution named `tachyon_samples_202
      - Run the following command: `MSBuild "tachyon_samples_2022.sln" /t:Rebuild /p:Configuration="Release"`
   
 ## Build Instructions for Linux
-To be completed once I have the Linux version out, because right now I can't check if this is right.
-        Perform the following steps:
+
 1. Build the program using the following `cmake` commands.
    ```
    $ mkdir build
@@ -101,23 +100,20 @@ To be completed once I have the Linux version out, because right now I can't che
 
 2. Run the program.
    ```
-   $ make run_all WHAT IS THE EXECUTABLE CALLED
+   $ make all
    ```
-   > **Note**: the following run commands are also available and correspond to the specific build targets. You can run all the versions with the run_all or select specific executable with one of the targets, additionally there are targets to run in addition the verify step. THESE TARGETS ALL HAVE DIFFERENT NAMES AND THERE IS NO GPU STUFF
+   > **Note**: the following run commands are also available and correspond to the specific build targets. You can create executables for all versions versions with `all` or select specific executable with one of the targets. 
 
-| Basic Invocation                       | Additional versions                 | Verification
-|:---                                    |:---                                 |:---
-|                                        | make clean                          |
-| make run_all                           |                                     | make run_verify_all
-| make run_cpu                           |                                     | 
-| make run_gpu_basic_offload             |                                     | run_verify_gpu_basic
-| make run_gpu_linear                    |                                     | run_verify_gpu_linear
-| make run_gpu_private_I                 | make run_gpu_private_K              | run_verify_gpu_private
-| make run_gpu_optimized                 | make run_gpu_optimized_good_params  | run_verify_gpu_optimized 
-|                                        | make run_gpu_optimized_wrong_params |
- 
-
-`run_all` and `run_verify_all` execute all basic commands. Verification commands compares GPU and CPU execution and compares results to ensure accurate calculation.
+| Option	                         | Function	                    
+|:---                                    |:---                              
+| make run                               | Creates executables for all versions and runs them                         
+| make solution                          | Creates executables for `tachyon.serial`, `tachyon.openmp_solution`, and `tachyon.tbb_solution` and runs them                             
+| make run_cpu                           |                                  
+| make run_gpu_basic_offload             |                                     
+| make run_gpu_linear                    |                                     
+| make run_gpu_private_I                 | make run_gpu_private_K              
+| make run_gpu_optimized                 | make run_gpu_optimized_good_params  
+|                                        | make run_gpu_optimized_wrong_params 
 
 If an error occurs, you can get more details by running `make` with
 the `VERBOSE=1` argument:
