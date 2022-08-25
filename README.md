@@ -20,7 +20,8 @@ Tachyon is a 2-D raytracer/renderer that visually shows different parallel sched
         OpenMP*, or Intel&reg; Threading Building Blocks
         (Intel&reg; TBB) exhibits good speedup, which can be further investigated using Intel&reg; Vtune Profiler.
 
-This application produces the following image over varying lengths of time and parallelization.
+This application produces the following image over varying lengths of time and parallelization. </br> ![image](https://user-images.githubusercontent.com/111458217/186752964-af23ce82-9e4d-4bec-b60f-a5fd427741f8.png)
+
 
 The sample includes five different versions of the Tachyon project.
 
