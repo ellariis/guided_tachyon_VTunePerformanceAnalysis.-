@@ -1,0 +1,18 @@
+Tachyon Sample
+
+License Information Follows
+---------------------------
+* src/*.cpp, src/*.h
+* src/common/gui/*.cpp, src/common/gui/*.h, src/common/utility/*.h, src/common/index.html
+* src/build_with_openmp/*.cpp, src/build_with_serial/*.cpp, src/build_with_tbb/*.cpp
+* scripts/Makefile.gmake
+* dat/*.dat
+* readme.html, Makefile
+
+Copyright (C) Intel Corporation
+
+* license: http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/  
+
+The original source is
+    Copyright (c) 1994-2008 John E. Stone
+    All rights reserved.
