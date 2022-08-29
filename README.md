@@ -85,7 +85,7 @@ The samples package contains a Visual Studio solution named `tachyon_samples_202
 >			<li> Set a breakpoint in the source code.</li>
 >			<li> Click <strong>Debug > Start Debugging</strong> and then click <strong>Yes</strong> in the resulting dialog</li>
 >			</ul>
->> **Note**: Remember to use Release mode for better performance. </br>
+> **Note**: Remember to use Release mode for better performance. </br>
 3. Add the path to balls.dat as a command argument for running through the debugger. ![image](https://user-images.githubusercontent.com/111458217/186287484-62e6e199-ff9f-40ea-8f55-4a973ce3761f.png)
 4. After choosing a startup project and ensuring that it runs properly, click this button at the top to open the Visual Studio integrated version of VTune: ![image](https://user-images.githubusercontent.com/111458217/187289391-1c8a1e2d-7618-4d67-a161-a42dc547eba6.png)
 5. Select `Configure Analysis`.
