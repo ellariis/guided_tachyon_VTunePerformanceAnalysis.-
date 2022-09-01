@@ -48,6 +48,7 @@ The fundamental takeaways from this guided sample include:
 - How to use OpenMP and/or TBB threading effectively
 
 ## Build Instructions
+This sample requires that you have the Intel oneAPI HPC Toolkit installed. To download the HPC Toolkit, follow this link: https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html
 
 > **Note**: If you have not already done so, set up your CLI
 > environment by sourcing  the `setvars` script located in
@@ -67,25 +68,17 @@ The samples package contains a Visual Studio solution named `tachyon_samples_202
 ### Windows Setup
 1. Ensure that the solution and project files are updated for your version of Visual Studio.
 2. Build the solution with default settings.
-> <h4>To Compile All of the Projects in the Solution</h4>
->			<ul>
->			<li> Click <strong>Build > Rebuild Solution</strong></li>
->			</ul>
->			<h4>To Compile a Project in the Solution</h4>
->			<ul>
->			<li> Right-click the project in <strong>Solution Explorer</strong> and then click <strong>Rebuild</strong></li>
->			</ul>
->			<h4>To Run a Project in the Solution</h4>
->			<ul>
->			<li> Right-click the project in <strong>Solution Explorer</strong> and then click <strong>Set as Startup Project</strong></li>
->			<li> Click <strong>Debug > Start Without Debugging</strong> and then click <strong>Yes</strong> in the resulting dialog
->			</ul>
->			<h4>To Debug a Project in the Solution</h4>
->			<ul>
->			<li> Set a breakpoint in the source code.</li>
->			<li> Click <strong>Debug > Start Debugging</strong> and then click <strong>Yes</strong> in the resulting dialog</li>
->			</ul>
-> **Note**: Remember to use Release mode for better performance. </br>
+ - To Compile All of the Projects in the Solution
+ >      - Click **Build > Rebuild Solution**
+ - To Compile a Project in the Solution
+ >      - Right-click the project in **Solution Explorer** and then click **Rebuild**
+ - To Run a Project in the Solution
+ >      - Right-click the project in **Solution Explorer** and then click **Set as Startup Project**
+ >      - Click **Debug > Start Without Debugging** and then click **Yes** in the resulting dialog
+- To Debug a Project in the Solution
+ >      - Set a breakpoint in the source code
+  >     - Click **Debug > Start Debugging** and then click **Yes** in the resulting dialog
+ **Note**: Remember to use Release mode for better performance. </br>
 3. Add the path to balls.dat as a command argument for running through the debugger. ![image](https://user-images.githubusercontent.com/111458217/186287484-62e6e199-ff9f-40ea-8f55-4a973ce3761f.png)
 4. After choosing a startup project and ensuring that it runs properly, click this button at the top to open the Visual Studio integrated version of VTune: ![image](https://user-images.githubusercontent.com/111458217/187289391-1c8a1e2d-7618-4d67-a161-a42dc547eba6.png)
 5. Select `Configure Analysis`.
